@@ -3,15 +3,17 @@
     template(v-if='!isloading')
       .home-page__buttons
         router-link(to='/') Threat vision
-      
+
       .home-page__input
         input#file(type="file", ref="file", v-on:change="handleFileUpload()")
         button(v-on:click="submitFile()") Submit
+      
     template(v-else)
       h1 Идет загрузка
 </template>
 
 <script>
+
 const url = "http://threat-vision-api.herokuapp.com/predict"
 
 export default {

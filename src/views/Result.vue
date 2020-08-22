@@ -3,12 +3,14 @@
   router-link(to="/") <- Home
   canvas#chartPie
   canvas#chartScatter
+  button(@click='postNewResult') Чёрт
 </template>
 
 
 <script>
 import Chart from "chart.js";
 import { mapState } from "vuex";
+import api from '../assets/js/api'
 
 export default {
   computed: {
@@ -84,6 +86,18 @@ export default {
     // this.createChart("chartScatter", dataChartScatter);
   },
   methods: {
+    postNewResult() {
+      // api.postKey(this.$http, '-MFKcBKc-mVhYamDlYh7')
+      api.getKeys(this.$http)
+      // api.deleteAll().then(dat => {
+      //   console.log(data)
+      //   return data
+      // })
+      // api.postNewResult(this.$http, this.response).then(data => {
+      //   console.log(data)
+      //   return data
+      // })
+    },
     createChart(chartId, chartData) {
       const ctx = document.getElementById(chartId);
       const myChart = new Chart(ctx, {
