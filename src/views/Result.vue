@@ -1,13 +1,14 @@
 <template lang="pug">
-.home(v-show='!isloading')
-  a(@click='$router.go(-1)') <- Back
+.home(v-show='!isloading').container
+  .home__header-link
+    a(@click='$router.go(-1)').back Back
   .results
-    .results__info(:class="{ 'badTraffic': !badTraffic }")
+    .results__info(:class="{ 'badtraffic': !badtraffic }")
       img(src='../assets/image/file.png').results__img
-      template(v-if='!badTraffic')
-        .results__info-text Проверка пройдена успешно
-      template(v-else)
+      template(v-if='!badtraffic')
         .results__info-text Обнаружена угроза
+      template(v-else)
+        .results__info-text Проверка пройдена успешно
 
     .results__diagram
       canvas#chartPie
@@ -23,7 +24,7 @@ import api from "../assets/js/api";
 export default {
   data: () => ({
     isloading: true,
-    badTraffic: false,
+    badtraffic: false,
   }),
   computed: {
     ...mapState(["response"]),
@@ -137,13 +138,19 @@ export default {
 $redColor: #A60000;
 $greenColor: #008500;
 $greyColor: #212022;
+$blueColor: #5a5fa0;
 
 .home {
   max-width: 1000px;
   margin: auto;
+
+  .home__header-link {
+    margin-top: 30px;
+  }
 }
 
 .results {
+  font-family: Helvetica, sans-serif;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -154,16 +161,20 @@ $greyColor: #212022;
     align-items: center;
     width: 300px;
     height: 100px;
-    border-radius: 10px;
     padding-left: 15px;
     padding-right: 15px;
-    background: $greenColor;
-    box-shadow: inset 0 -1px 2px 3px rgba($greyColor,0.3);
+    background: rgba($greenColor,0.5);
+    border: 2px dashed $greenColor;
+  }
+
+  .badtraffic {
+    background: rgba($redColor,0.5);
+    border: 2px dashed $redColor;
   }
 
   .results__info-text {
     font-size: 18px;
-    color: #fff;
+    // color: #fff;
   }
   .results__img {
     width: 40px;
@@ -177,4 +188,27 @@ $greyColor: #212022;
   align-items: center;
 }
 
+.back {
+  font-size: 24px;
+  color: $blueColor;
+  text-decoration: none;
+  position: relative;
+
+  &:hover {
+    cursor: pointer;
+    text-decoration: underline;
+    color: $greyColor
+  }
+
+  &::before {
+    position: absolute;
+    content: '';
+    width: 14px;
+    height: 24px;
+    background: url('../assets/image/back1600.png');
+    top: 50%;
+    transform: translateY(-50%);
+    left: -24px;
+  }
+}
 </style>
