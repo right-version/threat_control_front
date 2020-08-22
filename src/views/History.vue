@@ -1,7 +1,7 @@
 <template lang="pug">
 .history-page.container
   .home__header-link
-    a.back(@click="$router.go(-1)") Back
+    a.back(@click="$router.push('/')") Домой
 
   .history-page__data(v-if="dataset")
     template(v-for="link in dataset.slice(0, 10)", :keys="link.key")

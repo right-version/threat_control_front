@@ -1,18 +1,17 @@
 <template lang="pug">
-.home(v-show='!isloading').container
+.home.container(v-show='!isloading')
   .home__header-link
-    a(@click='$router.go(-1)').back Back
+    a(@click='goBack').back Домой | 
+    a(@click='goHistory').back2 История
   .results
-    .results__info(:class="{ 'badtraffic': !badtraffic }")
-      img(src='../assets/image/file.png').results__img
-      template(v-if='!badtraffic')
-        .results__info-text Обнаружена угроза
-      template(v-else)
-        .results__info-text Проверка пройдена успешно
+    .results-wrapper
+      .results__info(:class="status")
+        img(src='../assets/image/file.png').results__img
+        .results__info-text {{ statusMessage }}
 
-    .results__diagram
-      canvas#chartPie
-      canvas#chartScatter
+    .results-wrapper
+      .results__diagram
+        canvas#chartPie
 </template>
 
 
@@ -25,6 +24,8 @@ export default {
   data: () => ({
     isloading: true,
     badtraffic: false,
+    status: 'good',
+    statusMessage: 'Угрозы обнаружены'
   }),
   computed: {
     ...mapState(["response"]),
@@ -35,6 +36,18 @@ export default {
         .getResultByKey(this.$http, this.$route.query.result)
         .then((data) => {
           this.$store.commit("setResponse", data.data.result);
+
+          if (data.data.result.counterBad < 30) {
+            this.status = 'good'
+            this.statusMessage = 'Проверка пройдена успешно'
+          } else if (data.data.result.counterBad < 60) {
+            this.status = 'norm'
+            this.statusMessage = 'Незначительное количество угроз'
+          } else {
+            this.status = 'bad'
+            this.statusMessage = 'Обнаружены угрозы'
+          }
+
           this.charts();
           this.isloading = false
         })
@@ -48,6 +61,12 @@ export default {
     }
   },
   methods: {
+    goBack() {
+      this.$router.push('/')
+    },
+    goHistory() {
+      this.$router.push('/?history=true')
+    },
     createChart(chartId, chartData) {
       const ctx = document.getElementById(chartId);
       const myChart = new Chart(ctx, {
@@ -93,9 +112,10 @@ $redColor: #A60000;
 $greenColor: #008500;
 $greyColor: #212022;
 $blueColor: #5a5fa0;
+$yellowColor: #cd7003;
 
 .home {
-  max-width: 1000px;
+  max-width: 1280px;
   margin: auto;
 
   .home__header-link {
@@ -105,41 +125,70 @@ $blueColor: #5a5fa0;
 
 .results {
   font-family: Helvetica, sans-serif;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  display: block;
+
+  .results-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+  }
 
   .results__info{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 300px;
-    height: 100px;
-    padding-left: 15px;
-    padding-right: 15px;
+    width: 500px;
+    height: 200px;
+    padding-left: 35px;
+    padding-right: 35px;
     background: rgba($greenColor,0.5);
     border: 2px dashed $greenColor;
   }
 
-  .badtraffic {
+  .bad {
     background: rgba($redColor,0.5);
     border: 2px dashed $redColor;
   }
 
+  .norm {
+    background: rgba($yellowColor,0.5);
+    border: 2px dashed $yellowColor;
+  }
+
+  .good {
+    background: rgba($greenColor,0.5);
+    border: 2px dashed $greenColor;
+  }
+
   .results__info-text {
-    font-size: 18px;
+    font-size: 32px;
     // color: #fff;
   }
   .results__img {
-    width: 40px;
-    height: 60px;
+    width: 75px;
+    height: 100px;
+    margin-right: 35px;
   }
 }
 .results__diagram {
-  width: 500px;
+  width: 800px;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.back2 {
+  font-size: 24px;
+  color: $blueColor;
+  text-decoration: none;
+  position: relative;
+
+  &:hover {
+    cursor: pointer;
+    text-decoration: underline;
+    color: $greyColor
+  }
 }
 
 .back {
