@@ -5,7 +5,7 @@
   .history-page__central
     .history-page__data(v-if="dataset")
       template(v-for="link in dataset.slice(0, 10)", :keys="link.key")
-        .history-page__block.history-page__block_type_bad(v-if='link.info' @click="goTo(link.key)")
+        .history-page__block(v-if='link.info' :class='getStatusClass(link.info.counterBad)' @click="goTo(link.key)")
           .history-page__status {{ getStatus(link.info.counterBad) }}
           .history-page__date {{ link.info.date }}
 </template>
@@ -31,6 +31,15 @@ export default {
         return 'Незначительное кол-во угроз'
       } else {
         return 'Угрозы обнаружены'
+      }
+    },
+    getStatusClass(value) {
+      if (value < 30) {
+        return 'history-page__block_type_good'
+      } else if (value < 60) {
+        return 'history-page__block_type_norm'
+      } else {
+        return 'history-page__block_type_bad'
       }
     },
     goTo(value) {

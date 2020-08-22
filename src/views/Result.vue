@@ -1,12 +1,12 @@
 <template lang="pug">
-.home.container(v-show='!isloading')
+.home.container(v-show="!isloading")
   .home__header-link
-    a(@click='goBack').back Домой | 
-    a(@click='goHistory').back2 История
+    a.back(@click="goBack") Домой | 
+    a.back2(@click="goHistory") История
   .results
     .results-wrapper
       .results__info(:class="status")
-        img(src='../assets/image/file.png').results__img
+        img.results__img(src="../assets/image/file.png")
         .results__info-text {{ statusMessage }}
 
     .results-wrapper
@@ -24,8 +24,8 @@ export default {
   data: () => ({
     isloading: true,
     badtraffic: false,
-    status: 'good',
-    statusMessage: 'Угрозы обнаружены'
+    status: "good",
+    statusMessage: "Угрозы обнаружены",
   }),
   computed: {
     ...mapState(["response"]),
@@ -38,34 +38,34 @@ export default {
           this.$store.commit("setResponse", data.data.result);
 
           if (data.data.result.counterBad < 30) {
-            this.status = 'good'
-            this.statusMessage = 'Проверка пройдена успешно'
+            this.status = "good";
+            this.statusMessage = "Проверка пройдена успешно";
           } else if (data.data.result.counterBad < 60) {
-            this.status = 'norm'
-            this.statusMessage = 'Незначительное количество угроз'
+            this.status = "norm";
+            this.statusMessage = "Незначительное количество угроз";
           } else {
-            this.status = 'bad'
-            this.statusMessage = 'Обнаружены угрозы'
+            this.status = "bad";
+            this.statusMessage = "Обнаружены угрозы";
           }
 
           this.charts();
-          this.isloading = false
+          this.isloading = false;
         })
         .catch(() => {
-          alert('Данного рассчета не существует')
+          alert("Данного рассчета не существует");
           this.$router.push("/");
         });
     } else {
-      console.log('Через стор')
+      console.log("Через стор");
       this.charts();
     }
   },
   methods: {
     goBack() {
-      this.$router.push('/')
+      this.$router.push("/");
     },
     goHistory() {
-      this.$router.push('/?history=true')
+      this.$router.push("/?history=true");
     },
     createChart(chartId, chartData) {
       const ctx = document.getElementById(chartId);
@@ -76,13 +76,19 @@ export default {
       });
     },
     charts() {
+      Chart.defaults.global.defaultFontSize = 24;
+      Chart.defaults.global.defaultFontFamily = "Helvetica, sans-serif";
+
       const dataChartPie = {
         type: "pie",
         data: {
           datasets: [
             {
-              data: [Math.round(this.response.counterGood), Math.round(this.response.counterBad)],
-              backgroundColor: ["#00a1fa", "#5a5fa0"],
+              data: [
+                Math.round(this.response.counterGood),
+                Math.round(this.response.counterBad),
+              ],
+              backgroundColor: ["#7ba05b", "#bc4129"],
             },
           ],
           labels: ["Нормальный", "Потенциально опасный"],
@@ -92,11 +98,6 @@ export default {
           title: {
             display: true,
             text: "Сетевой трафик",
-          },
-          responsive: true,
-          animation: {
-            duration: 1.5,
-            easing: "linear",
           },
         },
       };
@@ -108,7 +109,7 @@ export default {
 </script>
 
 <style lang="scss">
-$redColor: #A60000;
+$redColor: #a60000;
 $greenColor: #008500;
 $greyColor: #212022;
 $blueColor: #5a5fa0;
@@ -134,7 +135,7 @@ $yellowColor: #cd7003;
     margin-top: 30px;
   }
 
-  .results__info{
+  .results__info {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -142,22 +143,22 @@ $yellowColor: #cd7003;
     height: 200px;
     padding-left: 35px;
     padding-right: 35px;
-    background: rgba($greenColor,0.5);
+    background: rgba($greenColor, 0.5);
     border: 2px dashed $greenColor;
   }
 
   .bad {
-    background: rgba($redColor,0.5);
+    background: rgba($redColor, 0.5);
     border: 2px dashed $redColor;
   }
 
   .norm {
-    background: rgba($yellowColor,0.5);
+    background: rgba($yellowColor, 0.5);
     border: 2px dashed $yellowColor;
   }
 
   .good {
-    background: rgba($greenColor,0.5);
+    background: rgba($greenColor, 0.5);
     border: 2px dashed $greenColor;
   }
 
@@ -172,10 +173,11 @@ $yellowColor: #cd7003;
   }
 }
 .results__diagram {
-  width: 800px;
+  width: 1000px;
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 40px;
 }
 
 .back2 {
@@ -187,7 +189,7 @@ $yellowColor: #cd7003;
   &:hover {
     cursor: pointer;
     text-decoration: underline;
-    color: $greyColor
+    color: $greyColor;
   }
 }
 
@@ -200,15 +202,15 @@ $yellowColor: #cd7003;
   &:hover {
     cursor: pointer;
     text-decoration: underline;
-    color: $greyColor
+    color: $greyColor;
   }
 
   &::before {
     position: absolute;
-    content: '';
+    content: "";
     width: 14px;
     height: 24px;
-    background: url('../assets/image/back1600.png');
+    background: url("../assets/image/back1600.png");
     top: 50%;
     transform: translateY(-50%);
     left: -24px;
