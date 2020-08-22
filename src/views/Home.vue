@@ -1,14 +1,14 @@
 <template lang='pug'>
-  .page.container
-    .header.container
+  .home-page.container
+    .header
       .header__logo
         router-link(to='/')
           img(src='../assets/image/logo.png').logo
-      
-      router-link(to="/?history=true")
-        .header__history  See History
+      router-link(to="/?history=true").header__history  See History
+        
+
     template(v-if='!isloading')
-      .section.container
+      .section
         .section__content-wrapper
           .section__input
             .section__drop
@@ -18,7 +18,7 @@
             .section__button-item  
               button(v-on:click="submitFile()").btn Отправить на проверку
               
-      .info.container
+      .info
         H1.info__title Что такое ThreatVision
         P.info__text.
           Сайт рыбатекст поможет дизайнеру, верстальщику, вебмастеру сгенерировать несколько абзацев более менее
@@ -110,20 +110,20 @@ $greyColor: #212022;
 .section{
   max-width: 100%;
   height: 200px;
-  margin-top: 250px;
-  margin-bottom: 250px;
+  margin-top: 100px;
+  margin-bottom: 100px;
 
-  &__button-item {
+  .section__button-item {
     margin-top: 40px; 
   }
 
-  &__content-wrapper {
+  .section__content-wrapper {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
   }
 
-  &__drop {
+  .section__drop {
     position: relative;
 
     &:hover {
@@ -134,13 +134,13 @@ $greyColor: #212022;
     }
   }
 
-  &__input {
+  .section__input {
     display: flex;
     flex-direction: column;
     align-items: center;
   }
 
-  &__text {
+  .section__text {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -157,12 +157,12 @@ $greyColor: #212022;
 
 .info {
   
-  &__title {
+  .info__title {
     color: $blueColor;
     font-size: 45px;
   }
 
-  &__text{
+  .info__text{
     color: $greyColor;
     font-size: 18px;
   }
