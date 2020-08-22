@@ -20,11 +20,12 @@ export default {
 </script>
 
 <style lang="scss">
-.container {
-  position: relative;
-  padding: 0 10px;
-  max-width: 1260px;
-  margin: auto;
-}
+  .container {
+    position: relative;
+    padding: 0 10px;
+    max-width: 1260px;
+    margin: auto;
+  }
+
 </style>
 
