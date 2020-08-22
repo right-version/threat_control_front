@@ -109,6 +109,7 @@ $blueColor: #5a5fa0;
 $greyColor: #212022;
 
 .header {
+  font-family: Helvetica, sans-serif;
   margin-top: 30px;
   display: flex;
   justify-content: space-between;
@@ -117,6 +118,7 @@ $greyColor: #212022;
   .header__history {
     font-size: 24px;
     color: $blueColor;
+    text-decoration: none;
 
     &:hover {
       cursor: pointer;
@@ -126,7 +128,8 @@ $greyColor: #212022;
   }
 }
 
-.section {
+.section{
+  font-family: Helvetica, sans-serif;
   max-width: 100%;
   height: 200px;
   margin-top: 100px;
@@ -176,6 +179,8 @@ $greyColor: #212022;
 }
 
 .info {
+  font-family: Helvetica, sans-serif;
+  
   .info__title {
     color: $blueColor;
     font-size: 32px;
