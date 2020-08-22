@@ -19,4 +19,4 @@ npm run build
 
 ## Pretrained models
 
-Preprocessed dataset for our web application you can download in data folder in repository.
+Preprocessed dataset for our web application you can download in **data folder** in repository or https://clck.ru/QTjrD.
