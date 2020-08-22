@@ -89,7 +89,7 @@ export default {
 </script>
 
 <style lang="scss">
-$blueColor: #5a5fa0;
+$blueColor: #434EDD;
 $greyColor: #212022;
 
 .header {
