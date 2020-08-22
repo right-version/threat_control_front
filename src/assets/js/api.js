@@ -11,30 +11,19 @@ export default {
   getKeys: (axios) => {
     return axios.get(`${fbDbUrl}/keys.json`).then(data => {
       console.log(data)
-      return data
+      return data.data
     })
   },
 
-  postKey: (axios, key) => {
-    return axios.post(`${fbDbUrl}/.json`, { key }).then(data => {
+  postResult: (axios, result) => {
+    return axios.post(`${fbDbUrl}/result.json`, { result }).then(data => {
+      return data.data.name
+    })
+  },
+  getResultByKey: (axios, key) => {
+    return axios.get(`${fbDbUrl}/result/${key}.json`).then(data => {
       console.log(data)
       return data
     })
   },
-  getKeys: (axios) => {
-    return axios.get(`${fbDbUrl}/keys.json`).then(data => {
-      console.log(data)
-      return data
-    })
-  },
-
-  postNewResult: (axios, post) => {
-    return axios.post(`${fbDbUrl}/posts${post.token}.json`, post)
-  },
-  getResultById: (axios) => {
-    return axios.get(`${fbDbUrl}/posts${post.token}.json`)
-  },
-  deleteAll: (axios) => {
-    return axios.delete(`${fbDbUrl}/posts.json`)
-  }
 }

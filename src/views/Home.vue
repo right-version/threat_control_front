@@ -15,6 +15,7 @@
 <script>
 
 const url = "http://threat-vision-api.herokuapp.com/predict"
+import api from '../assets/js/api'
 
 export default {
   data: () => ({
@@ -37,11 +38,14 @@ export default {
           },
         })
         .then( response => {
-          this.response = {data: response.data, token: Math.random()};
-          console.log(this.response)
-          this.$store.commit('setResponse', this.response)
-          this.isloading = false
-          this.$router.push(`result/${this.response.token}`)
+          this.response = response.data;
+          api.postResult(this.$http, this.response).then(key => {
+            api.postKey(this.$http, key)
+
+            this.$store.commit('setResponse', this.response)
+            this.isloading = false
+            this.$router.push(`result/${key}`)
+          })
         })
         .catch(function () {
           console.log("FAILURE!!");
