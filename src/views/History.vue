@@ -3,8 +3,8 @@
     a(@click='$router.go(-1)') <- Back
 
     .history-page__data(v-if='dataset')
-    template(v-for='link in dataset' :keys="link")
-      router-link(:to="'/?result='+link") 
+    template(v-for='link in dataset' :keys="link.key")
+      router-link(:to="'/?result='+link.key") 
         p {{ link }}
 </template>
 
