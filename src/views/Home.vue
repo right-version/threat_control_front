@@ -11,11 +11,11 @@
         .section__content-wrapper
           .section__input
             .section__drop
-              label(for='file' v-on:change="handleFileUpload()").drop
+              label(for='file' :class="{ 'upload': isUpload }").drop
                 .section__text Загрузите файлы
-                input#file(type="file", ref="file")
+                input#file(type="file", ref="file" v-on:change="handleFileUpload()")
             .section__button-item  
-              button(v-on:clsick="submitFile()").btn Отправить на проверку
+              button(v-on:click="submitFile()").btn Отправить на проверку
               
       .info.container
         H1.info__title Что такое ThreatVision
@@ -46,10 +46,12 @@ export default {
   data: () => ({
     response: '',
     file: '',
-    isloading: true
+    isloading: false,
+    isUpload: false,
   }),
   methods: {
     handleFileUpload() {
+      this.isUpload = true
       this.file = this.$refs.file.files[0];
     },
     submitFile() {
@@ -173,6 +175,9 @@ $greyColor: #212022;
   }
 }
 
+.upload {
+  background: $greyColor;
+}
 #file {
   width: 400px;
   height: 100px;
