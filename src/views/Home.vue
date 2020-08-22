@@ -1,34 +1,34 @@
 <template lang='pug'>
   .home-page.container
-    .header
-      .header__logo
-        router-link(to='/')
-          img(src='../assets/image/logo.png').logo
-      router-link(to="/?history=true").header__history  See History
+    template(v-if='!isloading')
+      .header
+        .header__logo
+          router-link(to='/')
+            img(src='../assets/image/logo.png').logo
+        router-link(to="/?history=true").header__history  See History
         
 
-    template(v-if='!isloading')
+    
       .section
         .section__content-wrapper
           .section__input
             .section__drop
               label(for='file' :class="{ 'upload': isUpload }").drop
-                .section__text Загрузите файлы
+                .section__text {{ fileName ? fileName :'Загрузите данные сетевых пакетов' }}
                 input#file(type="file", ref="file" v-on:change="handleFileUpload()")
-            .section__button-item  
-              button(v-on:click="submitFile()").btn Отправить на проверку
+            .section__button-item
+              button.btn(v-on:click="submitFile()" :class="{'disabled': !isUpload }" :disabled='!isUpload') Отправить на проверку
               
       .info
-        H1.info__title Что такое ThreatVision
-        P.info__text.
-          Сайт рыбатекст поможет дизайнеру, верстальщику, вебмастеру сгенерировать несколько абзацев более менее
-          осмысленного текста рыбы на русском языке, а начинающему оратору отточить навык публичных выступлений в домашних условиях.
-          При создании генератора мы использовали небезизвестный универсальный код речей. Текст генерируется абзацами случайным образом
-          от двух до десяти предложений в абзаце, что позволяет сделать текст более привлекательным и живым для визуально-слухового восприятия.
-        P.info__text. 
-          По своей сути рыбатекст является альтернативой традиционному lorem ipsum, который вызывает у некторых людей недоумение при
-          попытках прочитать рыбу текст. В отличии от lorem ipsum, текст рыба на русском языке наполнит любой макет непонятным смыслом и придаст
-          неповторимый колорит советских времен.
+        h1.info__title Что такое Threat Control ?
+        p.info__text
+          | Это демо работы нейросети, которая способна анализировать сетевой трафик и выявлять аномальное поведение.
+
+        h1.info__title Какие данные можно загружать в Threat Control?
+        p.info__text
+          | Данные предобработанных сетевых пакетов. Примеры таких данных можно посмотреть 
+          a(href='https://clck.ru/QTjrD' target="_blank") тут
+          |.
 
 
     template(v-else)
@@ -37,6 +37,7 @@
         .SPAN.loader__item
         .SPAN.loader__item
         .SPAN.loader__item
+      .loader-subtext Дождитесь завершения обработки данных...
             
 </template>
 
@@ -50,11 +51,13 @@ export default {
     file: '',
     isloading: false,
     isUpload: false,
+    fileName: ''
   }),
   methods: {
     handleFileUpload() {
       this.isUpload = true
       this.file = this.$refs.file.files[0];
+      this.fileName = this.file.name
     },
     submitFile() {
       let formData = new FormData();
@@ -95,8 +98,8 @@ $greyColor: #212022;
   justify-content: space-between;
   align-items: center;
 
-  &__history {
-    font-size: 16px;
+  .header__history {
+    font-size: 24px;
     color: $blueColor;
 
     &:hover {
@@ -111,7 +114,7 @@ $greyColor: #212022;
   max-width: 100%;
   height: 200px;
   margin-top: 100px;
-  margin-bottom: 100px;
+  margin-bottom: 300px;
 
   .section__button-item {
     margin-top: 40px; 
@@ -125,6 +128,7 @@ $greyColor: #212022;
 
   .section__drop {
     position: relative;
+    
 
     &:hover {
       .section__text{
@@ -142,6 +146,7 @@ $greyColor: #212022;
 
   .section__text {
     position: absolute;
+    text-align: center;
     top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
@@ -159,7 +164,8 @@ $greyColor: #212022;
   
   .info__title {
     color: $blueColor;
-    font-size: 45px;
+    font-size: 32px;
+    margin-top: 40px;
   }
 
   .info__text{
@@ -181,7 +187,7 @@ $greyColor: #212022;
 }
 
 .upload {
-  background: $greyColor;
+  background: #c8c7df;
 }
 #file {
   width: 400px;
@@ -212,6 +218,14 @@ $greyColor: #212022;
   }
 }
 
+.disabled {
+  background: #c8c7df;
+  &:hover {
+    cursor: default;
+    box-shadow: none;
+  }
+}
+
 .loader {
   margin: 0 auto;
   margin-top: 250px;
@@ -219,6 +233,7 @@ $greyColor: #212022;
   width: 200px;
   height: 200px;
   overflow: hidden;
+  display: block;
           
   &__item {
     position: absolute;
@@ -262,14 +277,19 @@ $greyColor: #212022;
     }
   }
 }
+.loader-subtext {
+  margin-top: 50px;
+  text-align: center;
+}
+
 @keyframes animate1 {
-   0% {
+  0% {
     left: -100%;
-   }
+  }
   100% {
     left: 100%;
   }
- }
+}
 @keyframes animate3 {
   0% {
     left: 100%;
