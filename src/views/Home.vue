@@ -1,12 +1,31 @@
 <template lang='pug'>
-  .home-page.container
+  .page.container
     template(v-if='!isloading')
-      .home-page__buttons
-        router-link(to='/') Threat vision
+      .header.container
+        .header__logo
+          router-link(to='/')
+            img(src='../assets/image/logo.png').logo
       
-      .home-page__input
-        input#file(type="file", ref="file", v-on:change="handleFileUpload()")
-        button(v-on:click="submitFile()") Submit
+        .header__history See History
+      .section.container
+        .section__content-wrapper
+          .section__input
+            input#file(type="file", ref="file", v-on:change="handleFileUpload()")
+            button(class='btn' v-on:clsick="submitFile()") Submit
+      
+      .info.container
+        H1.info__title Что такое ThreatVision
+        P.info__text.
+          Сайт рыбатекст поможет дизайнеру, верстальщику, вебмастеру сгенерировать несколько абзацев более менее
+          осмысленного текста рыбы на русском языке, а начинающему оратору отточить навык публичных выступлений в домашних условиях.
+          При создании генератора мы использовали небезизвестный универсальный код речей. Текст генерируется абзацами случайным образом
+          от двух до десяти предложений в абзаце, что позволяет сделать текст более привлекательным и живым для визуально-слухового восприятия.
+        P.info__text. 
+          По своей сути рыбатекст является альтернативой традиционному lorem ipsum, который вызывает у некторых людей недоумение при
+          попытках прочитать рыбу текст. В отличии от lorem ipsum, текст рыба на русском языке наполнит любой макет непонятным смыслом и придаст
+          неповторимый колорит советских времен.
+
+
     template(v-else)
       h1 Идет загрузка
 </template>
@@ -51,13 +70,55 @@ export default {
 </script>
 
 <style lang="scss">
-.home-page {
-  .home-page__buttons {
-    margin: 50px auto;
-  }
-  .home-page__input {
-    display: flex;
-    justify-content: center;
+$blueColor: #5a5fa0;
+$greyColor: #212022;
+
+.header {
+  margin-top: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &__history {
+    font-size: 16px;
+    color: $blueColor;
+
+    &:hover {
+      cursor: pointer;
+      text-decoration: underline;
+      color: $greyColor
+    }
   }
 }
+
+.section{
+  max-width: 100%;
+  height: 200px;
+  margin-top: 250px;
+  margin-bottom: 250px;
+
+  &__content-wrapper {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+.logo {
+  width: 300px;
+}
+
+.info {
+  
+  &__title {
+    color: $blueColor;
+  }
+
+  &__text{
+    color: $greyColor;
+    font-size: 14px;
+  }
+
+}
 </style>
+    

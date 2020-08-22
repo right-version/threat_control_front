@@ -10,5 +10,6 @@
     max-width: 1260px;
     margin: auto;
   }
+
 </style>
 
