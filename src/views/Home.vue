@@ -2,8 +2,7 @@
   .home-page.container
     template(v-if='!isloading')
       .home-page__buttons
-        router-link(to='/') Home |
-        router-link(to='/result/0fsdffslmdflsdfj') Result
+        router-link(to='/') Threat vision
       
       .home-page__input
         input#file(type="file", ref="file", v-on:change="handleFileUpload()")
@@ -13,7 +12,7 @@
 </template>
 
 <script>
-const url = "'https://jsonplaceholder.typicode.com/todos/1'"
+const url = "http://threat-vision-api.herokuapp.com/predict"
 
 export default {
   data: () => ({
@@ -26,34 +25,26 @@ export default {
       this.file = this.$refs.file.files[0];
     },
     submitFile() {
-      // let formData = new FormData();
-      // formData.append("file", this.file);
+      let formData = new FormData();
+      formData.append("file", this.file);
       
-      // this.$http
-      //   .post(url, formData, {
-      //     headers: {
-      //       "Content-Type": "multipart/form-data",
-      //     },
-      //   })
-      //   .then( response => {
-      //     this.response = response.data;
-      //   })
-      //   .catch(function () {
-      //     console.log("FAILURE!!");
-      //   });
+      this.$http
+        .post(url, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then( response => {
+          this.response = {data: response.data, token: Math.random()};
+          console.log(this.response)
+          this.$store.commit('setResponse', this.response)
+          this.isloading = false
+          this.$router.push(`result/${this.response.token}`)
+        })
+        .catch(function () {
+          console.log("FAILURE!!");
+        });
       this.isloading = true
-
-      let data = {}
-      for (let i = 0; i < 1000; i++) {
-        data[i+''] = [Math.random(), Math.floor(Math.random() * 100), Math.floor(Math.random() * 100)]
-      }
-
-      setTimeout(() => {
-        this.response = {token: Math.random(), data }
-        this.$store.commit('setResponse', this.response)
-        this.isloading = false
-        this.$router.push(`result/${this.response.token}`)
-      }, 2000)
     },
   },
 };
