@@ -37,26 +37,16 @@ export default {
           this.charts();
           this.isloading = false
         })
-        // .catch(() => {
-        //   // this.$router.push("/");
-        // });
+        .catch(() => {
+          alert('Данного рассчета не существует')
+          this.$router.push("/");
+        });
     } else {
+      console.log('Через стор')
       this.charts();
     }
   },
   methods: {
-    postNewResult() {
-      // api.postKey(this.$http, '-MFKcBKc-mVhYamDlYh7')
-      api.getResultByKey(this.$http, "-MFKpYpE257WWTsU8xs4");
-      // api.deleteAll().then(dat => {
-      //   console.log(data)
-      //   return data
-      // })
-      // api.postNewResult(this.$http, this.response).then(data => {
-      //   console.log(data)
-      //   return data
-      // })
-    },
     createChart(chartId, chartData) {
       const ctx = document.getElementById(chartId);
       const myChart = new Chart(ctx, {
@@ -66,26 +56,16 @@ export default {
       });
     },
     charts() {
-      let counterBad = 0
-      let counterGood = 0
-
-      const values = this.response;
-      
-      values.forEach((value) => (value > 0.5 ? counterBad++ : counterGood++));
-
-      console.log(counterGood, counterBad)
-      // const scatter = values.map((value) => ({ x: value[1], y: value[2] }));
-
       const dataChartPie = {
         type: "pie",
         data: {
           datasets: [
             {
-              data: [counterGood, counterBad],
+              data: [Math.round(this.response.counterGood), Math.round(this.response.counterBad)],
               backgroundColor: ["#00a1fa", "#5a5fa0"],
             },
           ],
-          labels: ["Норальный", "Потенциально опасный"],
+          labels: ["Нормальный", "Потенциально опасный"],
         },
 
         options: {
@@ -101,33 +81,7 @@ export default {
         },
       };
 
-      // const dataChartScatter = {
-      //   type: "scatter",
-      //   data: {
-      //     datasets: [
-      //       {
-      //         label: "Scatter Dataset",
-      //         data: scatter,
-      //         pointBorderColor: new Color("pink"),
-      //         pointBackgroundColor: new Color("#ff0000"),
-      //       },
-      //     ],
-      //   },
-      //   options: {
-      //     scales: {
-      //       xAxes: [
-      //         {
-      //           type: "linear",
-      //           position: "bottom",
-      //         },
-      //       ],
-      //     },
-      //   },
-      // };
-      // console.log(this.response.data)
-
       this.createChart("chartPie", dataChartPie);
-      // this.createChart("chartScatter", dataChartScatter);
     },
   },
 };
