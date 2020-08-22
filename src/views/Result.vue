@@ -19,7 +19,7 @@ export default {
   mounted() {
     if (this.response === undefined || this.response.data === undefined) {
       api
-        .getResultByKey(this.$http, this.$route.params.id)
+        .getResultByKey(this.$http, this.$route.query.result)
         .then((data) => {
           this.$store.commit("setResponse", data.data.result);
           this.charts();
