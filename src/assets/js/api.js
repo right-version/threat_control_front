@@ -1,4 +1,3 @@
-const apiKey = 'AIzaSyC6Ipr-mynlo5ahKC2_nTCVPCbWYe_mc80' // test key
 const fbDbUrl = 'https://threat-vision.firebaseio.com'
 
 export default {
@@ -22,6 +21,12 @@ export default {
   },
   getResultByKey: (axios, key) => {
     return axios.get(`${fbDbUrl}/result/${key}.json`).then(data => {
+      console.log(data)
+      return data
+    })
+  },
+  getResults: (axios) => {
+    return axios.get(`${fbDbUrl}/result.json`).then(data => {
       console.log(data)
       return data
     })

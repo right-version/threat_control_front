@@ -1,17 +1,20 @@
 <template lang="pug">
   #app
-    HomePage(v-if='!$route.query.result')
+    HomePage(v-if='!$route.query.result && !$route.query.history')
+    HistoryPage(v-else-if='$route.query.history')
     ResultPage(v-else)
 </template>
 
 <script>
 import HomePage from "./views/Home";
 import ResultPage from "./views/Result";
+import HistoryPage from "./views/History";
 
 export default {
   components: {
     HomePage,
     ResultPage,
+    HistoryPage,
   },
 };
 </script>

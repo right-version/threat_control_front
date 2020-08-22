@@ -4,6 +4,9 @@
     .home-page__buttons
       router-link(to="/") Threat vision
 
+      .home-page__buttons
+        router-link(to="/?history=true") history
+
     .home-page__input
       input#file(type="file", ref="file", v-on:change="handleFileUpload()")
       button(v-on:click="submitFile()") Submit
