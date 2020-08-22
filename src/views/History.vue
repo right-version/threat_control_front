@@ -1,6 +1,7 @@
 <template lang="pug">
   .history-page
-    router-link(to="/") Threat vision
+    a(@click='$router.go(-1)') <- Back
+
     .history-page__data(v-if='dataset')
     template(v-for='link in dataset' :keys="link")
       router-link(:to="'/?result='+link") 
@@ -25,6 +26,6 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 
 </style>

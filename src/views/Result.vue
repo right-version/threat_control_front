@@ -1,9 +1,9 @@
 <template lang="pug">
-.home
-  router-link(to="/") <- Home
+.home(v-show='!isloading')
+  a(@click='$router.go(-1)') <- Back
+  
   canvas#chartPie
   canvas#chartScatter
-  button(@click="postNewResult") Чёрт
 </template>
 
 
@@ -13,6 +13,9 @@ import { mapState } from "vuex";
 import api from "../assets/js/api";
 
 export default {
+  data: () => ({
+    isloading: true,
+  }),
   computed: {
     ...mapState(["response"]),
   },
@@ -23,6 +26,7 @@ export default {
         .then((data) => {
           this.$store.commit("setResponse", data.data.result);
           this.charts();
+          this.isloading = false
         })
         // .catch(() => {
         //   // this.$router.push("/");
@@ -69,16 +73,16 @@ export default {
           datasets: [
             {
               data: [counterGood, counterBad],
-              backgroundColor: ["#3e95cd", "#8e5ea2"],
+              backgroundColor: ["#00a1fa", "#5a5fa0"],
             },
           ],
-          labels: ["Good", "Bad"],
+          labels: ["Норальный", "Потенциально опасный"],
         },
 
         options: {
           title: {
             display: true,
-            text: "Нейросеть графики",
+            text: "Сетевой трафик",
           },
           responsive: true,
           animation: {
@@ -122,7 +126,7 @@ export default {
 
 <style lang="scss">
 .home {
-  max-width: 800px;
+  max-width: 1000px;
   margin: auto;
 }
 </style>
