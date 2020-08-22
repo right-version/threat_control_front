@@ -5,8 +5,12 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    response: {}
   },
   mutations: {
+    setResponse: (state, response) => {
+      state.response = response
+    }
   },
   actions: {
   },

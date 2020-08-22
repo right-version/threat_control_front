@@ -42,10 +42,17 @@ export default {
       //     console.log("FAILURE!!");
       //   });
       this.isloading = true
+
+      let data = {}
+      for (let i = 0; i < 1000; i++) {
+        data[i+''] = [Math.random(), Math.floor(Math.random() * 100), Math.floor(Math.random() * 100)]
+      }
+
       setTimeout(() => {
-        this.response = Math.random()
+        this.response = {token: Math.random(), data }
+        this.$store.commit('setResponse', this.response)
         this.isloading = false
-        this.$router.push(`result/${this.response}`)
+        this.$router.push(`result/${this.response.token}`)
       }, 2000)
     },
   },
