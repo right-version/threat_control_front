@@ -1,18 +1,22 @@
 <template lang='pug'>
   .page.container
-    template(v-if='!isloading')
-      .header.container
-        .header__logo
-          router-link(to='/')
-            img(src='../assets/image/logo.png').logo
+    .header.container
+      .header__logo
+        router-link(to='/')
+          img(src='../assets/image/logo.png').logo
       
-        .header__history See History
+      .header__history See History
+    template(v-if='!isloading')
       .section.container
         .section__content-wrapper
           .section__input
-            input#file(type="file", ref="file", v-on:change="handleFileUpload()")
-            button(class='btn' v-on:clsick="submitFile()") Submit
-      
+            .section__drop
+              label(for='file' v-on:change="handleFileUpload()").drop
+                .section__text Загрузите файлы
+                input#file(type="file", ref="file")
+            .section__button-item  
+              button(v-on:clsick="submitFile()").btn Отправить на проверку
+              
       .info.container
         H1.info__title Что такое ThreatVision
         P.info__text.
@@ -27,7 +31,12 @@
 
 
     template(v-else)
-      h1 Идет загрузка
+      .loader
+        .SPAN.loader__item
+        .SPAN.loader__item
+        .SPAN.loader__item
+        .SPAN.loader__item
+            
 </template>
 
 <script>
@@ -37,7 +46,7 @@ export default {
   data: () => ({
     response: '',
     file: '',
-    isloading: false
+    isloading: true
   }),
   methods: {
     handleFileUpload() {
@@ -97,10 +106,41 @@ $greyColor: #212022;
   margin-top: 250px;
   margin-bottom: 250px;
 
+  &__button-item {
+    margin-top: 40px; 
+  }
+
   &__content-wrapper {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
+  }
+
+  &__drop {
+    position: relative;
+
+    &:hover {
+      .section__text{
+        cursor: pointer;
+        text-decoration: underline;
+      }
+    }
+  }
+
+  &__input {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &__text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    color: $blueColor;
+    font-size: 16px;
+    z-index: 1;
   }
 }
 
@@ -112,13 +152,137 @@ $greyColor: #212022;
   
   &__title {
     color: $blueColor;
+    font-size: 45px;
   }
 
   &__text{
     color: $greyColor;
-    font-size: 14px;
+    font-size: 18px;
   }
+}
+.drop{
+  position: relative;
+  display: block;
+  width: 400px;
+  height: 100px;
+  border: 2px dashed $blueColor;
 
+  &:hover {
+    cursor: pointer;
+    background: rgba($blueColor,0.5);
+  }
+}
+
+#file {
+  width: 400px;
+  height: 100px;
+  opacity: 0;
+  // border: 1px solid black;
+
+  &:hover {
+    cursor: pointer;
+    background: rgba($blueColor,0.5);
+  }
+}
+
+.btn{
+  position: relative;
+  display: block;
+  width: 250px;
+  font-size: 20px;
+  height: 50px;
+  background: $blueColor;
+  color: #fff;
+  outline: none;
+  border: none;
+
+  &:hover {
+    cursor: pointer;
+    box-shadow: 0 3px 10px 5px rgba($blueColor,0.3s);
+  }
+}
+
+.loader {
+  margin: 0 auto;
+  margin-top: 250px;
+  position: relative;
+  width: 200px;
+  height: 200px;
+  overflow: hidden;
+          
+  &__item {
+    position: absolute;
+    display: block;
+
+    &:nth-child(1) {
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 40px;
+      background: linear-gradient(90deg, transparent, $blueColor);
+      animation: animate1 1s linear infinite;
+      animation-delay: 0s;
+    }
+    &:nth-child(3) {
+      bottom: 0;
+      left: -100%;
+      width: 100%;
+      height: 40px;
+      background: linear-gradient(90deg, transparent, $blueColor);
+      animation: animate3 1s linear infinite;
+      animation-delay: 0s;
+    }
+    &:nth-child(2) {
+      right: 0;;
+      top: -100%;
+      width: 40px;
+      height: 100%;
+      background: linear-gradient(180deg, transparent, $blueColor);
+      animation: animate2 1s linear infinite;
+      animation-delay: 0s;
+    }
+    &:nth-child(4) {
+      left: 0;
+      top: 100%;
+      width: 40px;
+      height: 100%;
+      background: linear-gradient(180deg, transparent, $blueColor);
+      animation: animate4 1s linear infinite;
+      animation-delay: 0s;
+    }
+  }
+}
+@keyframes animate1 {
+   0% {
+    left: -100%;
+   }
+  100% {
+    left: 100%;
+  }
+ }
+@keyframes animate3 {
+  0% {
+    left: 100%;
+  }
+  100% {
+    left: -100%;
+  }
+}
+@keyframes animate2 {
+  0% {
+    top: -100%;
+  }
+  100% {
+    top: 100%;
+  }
+}
+@keyframes animate4 {
+  0% {
+    top: 100%;
+  }
+  100% {
+    top: -100%;
+  }
 }
 </style>
     
